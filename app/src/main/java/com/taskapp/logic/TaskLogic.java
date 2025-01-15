@@ -2,9 +2,7 @@ package com.taskapp.logic;
 
 import java.util.List;
 
-import com.taskapp.dataaccess.LogDataAccess;
 import com.taskapp.dataaccess.TaskDataAccess;
-import com.taskapp.dataaccess.UserDataAccess;
 import com.taskapp.model.Task;
 import com.taskapp.model.User;
 
@@ -12,14 +10,10 @@ import com.taskapp.model.User;
 
 public class TaskLogic {
     private final TaskDataAccess taskDataAccess;
-    private final LogDataAccess logDataAccess;
-    private final UserDataAccess userDataAccess;
     private User loginUser;
 
     public TaskLogic() {
         taskDataAccess = new TaskDataAccess();
-        logDataAccess = new LogDataAccess();
-        userDataAccess = new UserDataAccess();
     }
 
     /**
@@ -28,11 +22,6 @@ public class TaskLogic {
      * @param logDataAccess
      * @param userDataAccess
      */
-    public TaskLogic(TaskDataAccess taskDataAccess, LogDataAccess logDataAccess, UserDataAccess userDataAccess) {
-        this.taskDataAccess = taskDataAccess;
-        this.logDataAccess = logDataAccess;
-        this.userDataAccess = userDataAccess;
-    }
 
     /**
      * 全てのタスクを表示します。
@@ -48,6 +37,9 @@ public class TaskLogic {
 
     public void showAll() {
         List<Task> tasks = taskDataAccess.findAll();
+        if (tasks == null || tasks.isEmpty()) {
+            return;
+        }
 
         int index = 1;
         for (Task task : tasks) {

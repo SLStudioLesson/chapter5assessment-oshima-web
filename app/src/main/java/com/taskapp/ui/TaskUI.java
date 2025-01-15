@@ -10,19 +10,10 @@ import com.taskapp.logic.UserLogic;
 import com.taskapp.model.User;
 
 public class TaskUI {
-    private final BufferedReader reader;
-
-    private final UserLogic userLogic;
-
-    private final TaskLogic taskLogic;
-
-    private User loginUser;
-
-    public TaskUI() {
-        reader = new BufferedReader(new InputStreamReader(System.in));
-        userLogic = new UserLogic();
-        taskLogic = new TaskLogic();
-    }
+    private  final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        private final UserLogic userLogic = new UserLogic();
+        private final TaskLogic taskLogic = new TaskLogic();
+        private User loginUser;
 
     /**
      * 自動採点用に必要なコンストラクタのため、皆さんはこのコンストラクタを利用・削除はしないでください
@@ -31,9 +22,10 @@ public class TaskUI {
      * @param taskLogic
      */
     public TaskUI(BufferedReader reader, UserLogic userLogic, TaskLogic taskLogic) {
-        this.reader = reader;
-        this.userLogic = userLogic;
-        this.taskLogic = taskLogic;
+    }
+
+    public TaskUI() {
+
     }
 
     /**
@@ -49,8 +41,7 @@ public class TaskUI {
         inputLogin();
 
         // メインメニュー
-        boolean flg = true;
-        while (flg) {
+        while (true) {
             try {
                 System.out.println("以下1~3のメニューから好きな選択肢を選んでください。");
                 System.out.println("1. タスク一覧, 2. タスク新規登録, 3. ログアウト");
@@ -67,8 +58,7 @@ public class TaskUI {
                         break;
                     case "3":
                         System.out.println("ログアウトしました。");
-                        flg = false;
-                        break;
+                        return;
                     default:
                         System.out.println("選択肢が誤っています。1~3の中から選択してください。");
                         break;
@@ -101,15 +91,16 @@ public class TaskUI {
                         continue; // 再度ログインを要求
                     }
 
-                    System.out.println("ユーザー名：" + loginUser.getName() + "でログインしました。");
+                    System.out.print("ユーザー名：" + loginUser.getName() + "でログインしました。\n");
+                    System.out.println();
                     break;
-            } catch (IOException e) {
-                e.printStackTrace(); // 入力エラーを処理
-            } catch (AppException e) {
-                // AppException を処理
-                System.out.println(e.getMessage());
+                } catch (IOException e) {
+                    e.printStackTrace(); // 入力エラーを処理
+                } catch (AppException e) {
+                    // AppException を処理
+                    System.out.println(e.getMessage());
+                }
             }
-        }
     }
 
     /**

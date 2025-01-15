@@ -12,12 +12,11 @@ import java.util.List;
 public class TaskDataAccess {
 
     private final String filePath;
-
     private final UserDataAccess userDataAccess;
 
     public TaskDataAccess() {
         filePath = "app/src/main/resources/tasks.csv";
-        userDataAccess = new UserDataAccess();
+        this.userDataAccess = new UserDataAccess();
     }
 
     /**
@@ -40,7 +39,6 @@ public class TaskDataAccess {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             List<Task> tasks = new ArrayList<>();
             String line;
-    
             br.readLine(); // ヘッダー行をスキップ
     
             while ((line = br.readLine()) != null) {
@@ -52,13 +50,12 @@ public class TaskDataAccess {
                     int repUserCode = Integer.parseInt(parts[3].trim());
     
                     User repUser = userDataAccess.findByCode(repUserCode);
-                    tasks.add(new Task(code, name, status, repUser));
+                    if (repUser != null) {
+                        tasks.add(new Task(code, name, status, repUser));
+                    }
                 }
             }
-    
-            if (!tasks.isEmpty()) {
-                return tasks; // タスクリストが空でない場合はリストを返す
-            }
+            return tasks;
         } catch (IOException e) {
             e.printStackTrace();
         }
