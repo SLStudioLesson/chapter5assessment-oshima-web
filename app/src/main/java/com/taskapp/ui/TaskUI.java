@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.taskapp.exception.AppException;
 import com.taskapp.logic.TaskLogic;
 import com.taskapp.logic.UserLogic;
 import com.taskapp.model.User;
@@ -45,6 +46,7 @@ public class TaskUI {
      */
     public void displayMenu() {
         System.out.println("タスク管理アプリケーションにようこそ!!");
+        inputLogin();
 
         // メインメニュー
         boolean flg = true;
@@ -59,6 +61,7 @@ public class TaskUI {
 
                 switch (selectMenu) {
                     case "1":
+                    taskLogic.setLoginUser(loginUser).showAll();
                         break;
                     case "2":
                         break;
@@ -82,8 +85,32 @@ public class TaskUI {
      *
      * @see com.taskapp.logic.UserLogic#login(String, String)
      */
-    // public void inputLogin() {
-    // }
+    public void inputLogin() {
+            while (true) {
+                try {
+                    System.out.print("メールアドレスを入力してください：");
+                    String email = reader.readLine();
+
+                    System.out.print("パスワードを入力してください：");
+                    String password = reader.readLine();
+
+                    loginUser = userLogic.login(email, password);
+
+                    if (loginUser == null) {
+                        System.out.println("既に登録されているメールアドレス、パスワードを入力してください");
+                        continue; // 再度ログインを要求
+                    }
+
+                    System.out.println("ユーザー名：" + loginUser.getName() + "でログインしました。");
+                    break;
+            } catch (IOException e) {
+                e.printStackTrace(); // 入力エラーを処理
+            } catch (AppException e) {
+                // AppException を処理
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
     /**
      * ユーザーからの新規タスク情報を受け取り、新規タスクを登録します。

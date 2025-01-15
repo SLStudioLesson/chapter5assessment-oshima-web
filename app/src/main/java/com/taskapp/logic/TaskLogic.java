@@ -1,14 +1,20 @@
 package com.taskapp.logic;
 
+import java.util.List;
+
 import com.taskapp.dataaccess.LogDataAccess;
 import com.taskapp.dataaccess.TaskDataAccess;
 import com.taskapp.dataaccess.UserDataAccess;
+import com.taskapp.model.Task;
+import com.taskapp.model.User;
+
+
 
 public class TaskLogic {
     private final TaskDataAccess taskDataAccess;
     private final LogDataAccess logDataAccess;
     private final UserDataAccess userDataAccess;
-
+    private User loginUser;
 
     public TaskLogic() {
         taskDataAccess = new TaskDataAccess();
@@ -34,8 +40,35 @@ public class TaskLogic {
      * @see com.taskapp.dataaccess.TaskDataAccess#findAll()
      * @param loginUser ログインユーザー
      */
-    // public void showAll(User loginUser) {
-    // }
+
+    public TaskLogic setLoginUser(User loginUser) {
+        this.loginUser = loginUser;
+        return this; // メソッドチェーン用に自身を返す
+    }
+
+    public void showAll() {
+        List<Task> tasks = taskDataAccess.findAll();
+
+        int index = 1;
+        for (Task task : tasks) {
+            String statusText = switch (task.getStatus()) {
+                case 0 -> "未着手";
+                case 1 -> "着手中";
+                case 2 -> "完了";
+                default -> "不明";
+            };
+
+        String assigneeText;
+        if (task.getRepUser().getCode() == loginUser.getCode()) {
+            assigneeText = "あなたが担当しています";
+        } else {
+            assigneeText = task.getRepUser().getName() + "が担当しています";
+        }
+
+        System.out.println(index + ". タスク名：" + task.getName() + ", 担当者名：" + assigneeText + ", ステータス：" + statusText);
+        index++;
+        }
+    }
 
     /**
      * 新しいタスクを保存します。

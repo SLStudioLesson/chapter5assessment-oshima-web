@@ -1,5 +1,14 @@
 package com.taskapp.dataaccess;
 
+import com.taskapp.model.Task;
+import com.taskapp.model.User;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TaskDataAccess {
 
     private final String filePath;
@@ -27,14 +36,34 @@ public class TaskDataAccess {
      * @see com.taskapp.dataaccess.UserDataAccess#findByCode(int)
      * @return タスクのリスト
      */
-    // public List<Task> findAll() {
-    //     try () {
-
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-    //     return null;
-    // }
+    public List<Task> findAll() {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            List<Task> tasks = new ArrayList<>();
+            String line;
+    
+            br.readLine(); // ヘッダー行をスキップ
+    
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 4) {
+                    int code = Integer.parseInt(parts[0].trim());
+                    String name = parts[1].trim();
+                    int status = Integer.parseInt(parts[2].trim());
+                    int repUserCode = Integer.parseInt(parts[3].trim());
+    
+                    User repUser = userDataAccess.findByCode(repUserCode);
+                    tasks.add(new Task(code, name, status, repUser));
+                }
+            }
+    
+            if (!tasks.isEmpty()) {
+                return tasks; // タスクリストが空でない場合はリストを返す
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * タスクをCSVに保存します。
@@ -53,6 +82,7 @@ public class TaskDataAccess {
      * @param code 取得するタスクのコード
      * @return 取得したタスク
      */
+    
     // public Task findByCode(int code) {
     //     try () {
 
@@ -61,7 +91,7 @@ public class TaskDataAccess {
     //     }
     //     return null;
     // }
-
+    
     /**
      * タスクデータを更新します。
      * @param updateTask 更新するタスク
