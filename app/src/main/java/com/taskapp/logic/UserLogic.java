@@ -8,7 +8,11 @@ public class UserLogic {
     private final UserDataAccess userDataAccess;
 
     public UserLogic() {
-        userDataAccess = new UserDataAccess();
+        this.userDataAccess = new UserDataAccess();
+    }
+
+    public User findByCode(int code) {
+        return userDataAccess.findByCode(code);
     }
 
     /**

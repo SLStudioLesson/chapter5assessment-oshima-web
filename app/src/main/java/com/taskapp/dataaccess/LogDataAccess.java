@@ -52,7 +52,7 @@ public class LogDataAccess {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             List<Log> logs = new ArrayList<>();
             String line;
-            br.readLine(); // ヘッダー行をスキップ
+            br.readLine();
 
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -74,7 +74,7 @@ public class LogDataAccess {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null; // 必ず null を返す
+        return null;
     }
 
     /**
