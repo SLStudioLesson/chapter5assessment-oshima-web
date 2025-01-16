@@ -52,7 +52,12 @@ public class TaskUI {
 
                 switch (selectMenu) {
                     case "1":
-                    taskLogic.setLoginUser(loginUser).showAll();
+                    /**
+                     * コメント
+                     * loginUserは、showAll()の引数に渡しましょう
+                     */
+                    // taskLogic.setLoginUser(loginUser).showAll();
+                    taskLogic.showAll(loginUser);
                     selectSubMenu();
                         break;
                     case "2":

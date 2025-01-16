@@ -40,12 +40,15 @@ public class TaskLogic {
      * @param loginUser ログインユーザー
      */
 
-    public TaskLogic setLoginUser(User loginUser) {
-        this.loginUser = loginUser;
-        return this; // メソッドチェーン用に自身を返す
-    }
+    /**
+      * このメソッドは作らなくて大丈夫です！
+      */
+    // public TaskLogic setLoginUser(User loginUser) {
+    //     this.loginUser = loginUser;
+    //     return this; // メソッドチェーン用に自身を返す
+    // }
 
-    public void showAll() {
+    public void showAll(User loginUser) {
         List<Task> tasks = taskDataAccess.findAll();
         if (tasks == null || tasks.isEmpty()) {
             return;
