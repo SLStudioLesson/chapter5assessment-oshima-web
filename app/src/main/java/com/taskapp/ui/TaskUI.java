@@ -52,17 +52,15 @@ public class TaskUI {
 
                 switch (selectMenu) {
                     case "1":
-                    taskLogic.setLoginUser(loginUser).showAll();
+                    taskLogic.showAll(loginUser);
                     selectSubMenu();
                         break;
                     case "2":
                         inputNewInformation();
                         break;
                     case "3":
-                        System.out.println("ログアウトしました。");
                         return;
                     default:
-                        System.out.println("選択肢が誤っています。1~3の中から選択してください。");
                         break;
                 }
             } catch (IOException e) {

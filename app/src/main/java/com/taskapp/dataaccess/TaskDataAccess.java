@@ -57,6 +57,7 @@ public class TaskDataAccess {
                     }
                 }
             }
+            return tasks;
         } catch (IOException e) {
             e.printStackTrace();
         }
