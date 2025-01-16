@@ -177,9 +177,9 @@ public class TaskUI {
                         inputChangeInformation(); // ステータス変更機能呼び出し
                         break;
                     case "2":
+                        System.out.println("ステータスは、前のステータスより1つ先のもののみを選択してください\n");
                         return; // メインメニューに戻る
                     default:
-                        System.out.println("選択肢が誤っています。1~2の中から選択してください。\n");
                         break;
                 }
             } catch (IOException e) {
